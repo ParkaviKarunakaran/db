@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign-In | Sign-Up</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Josefin+Sans");
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+            list-style: none;
+            text-decoration: none;
+            font-family: "Josefin Sans", sans-serif;
+        }
+
+        body {
+            background: #1bb1ec;
+        }
+
+        .wrapper {
+            max-width: 400px;
+            width: 100%;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #dde1e7;
+            box-shadow: -3px -3px 7px rgba(68, 75, 87, 0.356),
+                2px 2px 5px rgba(68, 75, 87, 0.356);
+        }
+
+        .container {
+            padding: 35px 40px;
+        }
+
+        .wrapper .tabs ul {
+            width: 100%;
+            margin-bottom: 30px;
+            border: 2px solid #1bb1ec;
+            display: flex;
+        }
+
+        .wrapper .tabs ul li {
+            width: 50%;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 14px;
+            color: #fefffe;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: #1bb1ec;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        .wrapper .tabs ul li.active {
+            background: #e3e4e6;
+            color: rgb(0, 0, 0);
+        }
+
+        .wrapper .input_field {
+            margin-bottom: 25px;
+            margin-top: 28px;
+        }
+
+        .wrapper .input_field .input {
+            width: 100%;
+            border: none;
+            background: #dde9ecb7;
+            color: black;
+            font-family: sans-serif;
+            border: 2px solid rgba(13, 162, 231, 0.596);
+            font-size: 14px;
+            padding: 17px;
+            border-radius: 10px;
+        }
+
+        .wrapper .btn {
+            margin-top: 30px;
+            background: #27a6f0;
+            padding: 12px;
+            text-align: center;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: bold;
+        }
+
+        .wrapper .btn:hover {
+            background: #1b8cce;
+        }
+
+        .wrapper .btn a {
+            color: rgb(255, 255, 255);
+            display: block;
+            font-size: 16px;
+            font-family: sans-serif;
+        }
+
+        .icon-button {
+            margin-top: 45px;
+        }
+
+        .icon-button span {
+            margin-left: 15px;
+            padding-left: 60px;
+            padding-right: 60px;
+            padding-top: 20px;
+            padding-bottom: 7px;
+            border-radius: 5px;
+            line-height: 30px;
+            background: #b8bec7;
+        }
+
+        .icon-button span i {
+            font-size: 25px;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <div class="tabs">
+                <ul>
+                    <li class="sign_in_li">Sign in</li>
+                    <li class="sign_up_li">Sign up</li>
+                </ul>
+            </div>
+            <div class="sign_in">
+                <form id="signInForm" action="/signin" method="POST">
+                    <div class="input_field">
+                        <input type="text" placeholder="E-mail" class="input" id="signin-email" name="email" />
+                        <div class="error" id="signin-email-error"></div>
+                    </div>
+                    <div class="input_field">
+                        <input type="password" placeholder="Password" class="input" id="signin-password" name="password" />
+                        <div class="error" id="signin-password-error"></div>
+                    </div>
+                    <div class="btn" onclick="submitSignInForm()">Sign in</div>
+                </form>
+            </div>
+            <div class="sign_up" action="/signup" method="POST">
+                <form id="signUpForm" >
+                    <div class="input_field">
+                        <input type="text" placeholder="Username" class="input" id="username" name="username" />
+                        <div class="error" id="username-error"></div>
+                    </div>
+                    <div class="input_field">
+                        <input type="text" placeholder="E-mail" class="input" id="email" name="email" />
+                        <div class="error" id="email-error"></div>
+                    </div>
+                    <div class="input_field">
+                        <input type="tel" placeholder="Mobile Number" class="input" id="mobile" name="mobile" />
+                        <div class="error" id="mobile-error"></div>
+                    </div>
+                    <div class="input_field">
+                        <input type="password" placeholder="Password" class="input" id="password" name="password" />
+                        <div class="error" id="password-error"></div>
+                    </div>
+                    <div class="input_field">
+                        <input type="password" placeholder="Confirm Password" class="input" id="cpassword" name="cpassword" />
+                        <div class="error" id="cpassword-error"></div>
+                    </div>
+                    <div class="btn" onclick="submitSignUpForm()">Sign up</div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(".sign_up").hide();
+        $(".sign_in_li").addClass("active");
+
+        $(".sign_up_li").click(function () {
+            $(this).addClass("active");
+            $(".sign_in_li").removeClass("active");
+            $(".sign_up").show();
+            $(".sign_in").hide();
+        });
+
+        $(".sign_in_li").click(function () {
+            $(this).addClass("active");
+            $(".sign_up_li").removeClass("active");
+            $(".sign_in").show();
+            $(".sign_up").hide();
+        });
+
+        function submitSignInForm() {
+            const email = document.getElementById('signin-email').value;
+            const password = document.getElementById('signin-password').value;
+            let valid = true;
+
+            document.getElementById('signin-email-error').textContent = '';
+            document.getElementById('signin-password-error').textContent = '';
+
+            if (email.trim() === '') {
+                document.getElementById('signin-email-error').textContent = 'Email is required';
+                valid = false;
+            } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+                document.getElementById('signin-email-error').textContent = 'Email is invalid';
+                valid = false;
+            }
+
+            if (password.trim() === '') {
+                document.getElementById('signin-password-error').textContent = 'Password is required';
+                valid = false;
+            }
+
+            if (valid) {
+                alert('Sign In Successful!');
+                window.location.href = '/db';
+            }
+            
+    }
+
+        function submitSignUpForm() {
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const mobile = document.getElementById('mobile').value;
+            const password = document.getElementById('password').value;
+            const cpassword = document.getElementById('cpassword').value;
+            let valid = true;
+
+            document.getElementById('username-error').textContent = '';
+            document.getElementById('email-error').textContent = '';
+            document.getElementById('mobile-error').textContent = '';
+            document.getElementById('password-error').textContent = '';
+            document.getElementById('cpassword-error').textContent = '';
+
+            if (username.trim() === '') {
+                document.getElementById('username-error').textContent = 'Username is required';
+                valid = false;
+            }
+
+            if (email.trim() === '') {
+                document.getElementById('email-error').textContent = 'Email is required';
+                valid = false;
+            } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+                document.getElementById('email-error').textContent = 'Email is invalid';
+                valid = false;
+            }
+
+            if (mobile.trim() === '') {
+                document.getElementById('mobile-error').textContent = 'Mobile number is required';
+                valid = false;
+            } else if (!/^\d{10}$/.test(mobile)) {
+                document.getElementById('mobile-error').textContent = 'Mobile number is invalid';
+                valid = false;
+            }
+
+            if (password.trim() === '') {
+                document.getElementById('password-error').textContent = 'Password is required';
+                valid = false;
+            } else if (password.length < 6) {
+                document.getElementById('password-error').textContent = 'Password must be at least 6 characters';
+                valid = false;
+            }
+
+            if (cpassword.trim() === '') {
+                document.getElementById('cpassword-error').textContent = 'Confirm password is required';
+                valid = false;
+            } else if (password !== cpassword) {
+                document.getElementById('cpassword-error').textContent = 'Passwords do not match';
+                valid = false;
+            }
+
+            if (valid) {
+                if (confirm('Sign Up Successful! Do you want to Sign In now?')) {
+                    document.querySelector('.sign_in_li').click();
+                }
+            }
+        }
+    </script>
+</body>
+</html>
